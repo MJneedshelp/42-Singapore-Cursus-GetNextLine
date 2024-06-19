@@ -23,7 +23,7 @@ int	main(void)
 	size_t	buffsz;
 	char	*buff;
 
-	fd = open("The Raven - Edgar Allen Poe.txt", O_RDONLY);
+	fd = open("test.txt", O_RDONLY);
 	printf("fd value: %d\n", fd);
 	if (fd == -1)
 	{
@@ -34,7 +34,7 @@ int	main(void)
 	readsz = 10;
 	buffsz = 10;
 	buff = (char *)malloc(buffsz * sizeof(char));
-	while(readsz == buffsz)
+	while(readsz != 0)
 	{
 		readsz = read(fd, buff, buffsz);
 		buff[buffsz] = '\0';
