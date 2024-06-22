@@ -6,7 +6,7 @@
 /*   By: mintan <mintan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 11:08:04 by mintan            #+#    #+#             */
-/*   Updated: 2024/06/22 11:08:04 by mintan           ###   ########.fr       */
+/*   Updated: 2024/06/22 18:08:50 by mintan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,37 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_memcpy(ptr, s1, len1);
 	ft_memcpy(ptr + len1, s2, len2);
 	*(ptr + len1 + len2) = '\0';
+	return (ptr);
+}
+
+//to remove the 2 fx below afterwards. They are included for testing only
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	if (size > 0)
+	{
+		while (src[i] != '\0' && i < size - 1)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (ft_strlen(src));
+}
+
+char	*ft_strdup(const char *s)
+{
+	size_t	len;
+	char	*ptr;
+
+	len = ft_strlen(s);
+	ptr = (char *)malloc((len + 1) * sizeof(char));
+	if (ptr == NULL)
+		return (ptr);
+	ft_strlcpy(ptr, s, len + 1);
 	return (ptr);
 }
