@@ -25,14 +25,13 @@ char	*get_next_line(int fd)
 	//1. function to check if the FD is readable
 	//2. Check if there is anything in the remainder string
 	//	- smth in remainder string:
-	//		- step through remainder string to find \n within the remainder string -> function to find \n within a string
-	//		- if found \n, count strlen up to \n and malloc return string
-	//			- if malloc fails:
+	//		- step through remainder string to find \n within the remainder string -> function to find \n within a string (returns index of first \n)
+	//		- if found \n, count strlen up to \n and malloc return string -> can use substring up to \n into return string
+	//			- if malloc fails (if substring return is NULL):
 	//				- free static variable holding the remainder string
 	//				- return NULL
-	//			- strdup up to \n into return string
 	//			- substring remainder afer \n of remainder string
-	//			- return remainder string
+	//			- return return string
 
 	//At this point, 2 possible scenarios:
 	//	a. nth in remainder string
@@ -43,33 +42,30 @@ char	*get_next_line(int fd)
 	//5. While readsize > 0
 	//	- read
 	//		- if readsize > 0
-	//			- step through buff string to find \n within the buff string -> function to find \n within a string
-	//			- if found \n, count strlen up to \n. If smth in remainder string, add to count and malloc return string
-	//				- if malloc fails:
+	//			- step through buff string to find \n within the buff string -> function to find \n within a string (returns index of first \n)
+	//			- if found \n, count strlen up to \n. If smth in remainder string, add to count and malloc return string -> can use strjoin here
+	//				- if malloc fails (if strjoin fails):
 	//					- free buff
 	//					- if smth in remainder string, free static variable holding the remainder string
 	//					- return NULL
 	//				- else
 	//					- if smth in remainder string
-	//						- copy remainder string to front of return string
+	//						- copy remainder string to front of return string -> use strjoin here
 	//						- free remainder string
-	//					- copy buff up to \n to the return string
-	//					- if there is still smth in buff after \n, malloc remainder string
+	//					- copy buff up to \n to the return string -> use strjoin here
+	//					- if there is still smth in buff after \n, malloc remainder string -> use substring here
 	//						- if malloc fails:
 	//							- free return string
 	//							- free buff
-	//						- else, copy from buff after \n into remainder string
+	//						- else, copy from buff after \n into remainder string -> use substring here
 	//						- free buff
 	//					- return return string
-	//		- else (readsize == 0)
+	//		- else (readsize == 0) -> read until the end of the file alr
 	//			- free buff
-	//			- if smth in remainder string, count remainder string and malloc return string
-	//				- if malloc fails:
-	//					- free remainder string
-	//				- else, copy remainder into return string
-	//				- free remainder string
-	//				- return return string
+	//			- if smth in remainder string,
+	//				- return remainder string as return string
 	//			- else return NULL
+
 
 
 }
