@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include "get_next_line.h"
 
-/* Description: Takes in a string and searches for the first \n. Returns the 
+/* Description: Takes in a string and searches for the first \n. Returns the
    index of \n if found. If there is no \n, return -1. */
 
 size_t	findn(char *str)
@@ -50,18 +50,21 @@ char	*get_next_line(int fd)
 	char		*retstr;
 	int			npos;
 	char		*tmprem;
+/******************************************************************************/
 	char		*buff;
+	char		*linen;
 	int			readsz;
+	int			count = 0;
 
 /******************************************************************************/
 	//1. function to check if the FD is readable
 
 	//Test: multiple /n in rem
-	/*	
+	/*
 	rem = ft_strdup("1234567890\n0987654321\nqwertyu\n");
 	*/
 	//Test: in rem, only 1 /n and it is at the end of the string
-	/*	
+	/*
 	rem = ft_strdup("12345678900987654321qwertyu\n");
 	*/
 	//Test: \n is in the first position
@@ -109,10 +112,67 @@ char	*get_next_line(int fd)
 	}
 
 //Probably need to split the next read part out as a function
-	
+	printf("Reached part 2\n");
 	readsz = BUFFER_SIZE;
+	buff = (char *)malloc(BUFFER_SIZE * sizeof(char));
+	while (readsz > 0)
+	{
+		readsz = read(fd, buff, BUFFER_SIZE - 1);
+		//might want to have some checks for read error like readsize == -1
+		buff[readsz] = '\0';
+		if (readsz > 0)
+		{
+			npos = findn(buff);
+			if (npos >= 0)
+			{
+				linen = ft_substr(buff, 0, npos + 1);
+				if (linen == NULL)
+				{
+					free (buff);
+					if (rem)
+						free (rem);
+					return (NULL);
+				}
+				if (rem)
+				{
+					retstr = ft_strjoin(rem, linen);
+					if (retstr == NULL)
+					{
+						free (buff);
+						free (rem);
+						free (linen);
+						return (NULL);
+					}
+					free (rem);
+					free (linen);
+				}
+				else
+					retstr = linen;
+				if ((size_t)(npos + 1) < readsz)
+				{
+					rem = ft_substr(buff, npos + 1, readsz - (npos + 1));
+					if (rem == NULL)
+					{
+						free (buff);
+						free (retstr);
+						return (NULL);
+					}
+				}
+				free (buff);
+				return (retstr);
+			}
+		}
+		else
+		{
+			free (buff);
+			if (rem)
+				return (rem);
+			return (NULL);
+		}
 
-//	while (readsz > 0)	
+		//printf("Read no.: %d | Read size: %d | Contents: %s\n", count, readsz, buff);
+
+	}
 
 
 
