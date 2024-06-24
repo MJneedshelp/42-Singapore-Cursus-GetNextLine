@@ -33,11 +33,14 @@ size_t	findn(char *str)
 	return (-1);
 }
 
-/* Description: Checks if a file can be read
-   //probably smth to check if the FD passed in is a binary file or smth
+/* Description: Variadic function to do the freeing
+//  Probably and int indicating the number of pointers to free and then the pointers to free
 */
 
 
+/* Description: Checks if a file can be read
+   //probably smth to check if the FD passed in is a binary file or smth
+*/
 
 
 /* Description:
