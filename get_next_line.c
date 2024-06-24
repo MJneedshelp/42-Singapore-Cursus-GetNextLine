@@ -105,24 +105,27 @@ char	*get_next_line(int fd)
 				}
 				free(rem);
 				rem = tmprem;
-				printf("newrem: %s\n", rem);
+				//printf("newrem: %s\n", rem);
 			}
 			return (retstr);
 		}
 	}
 
 //Probably need to split the next read part out as a function
-	printf("Reached part 2\n");
 	readsz = BUFFER_SIZE;
+	printf("Buffer size: %d\n", BUFFER_SIZE);
 	buff = (char *)malloc(BUFFER_SIZE * sizeof(char));
 	while (readsz > 0)
 	{
+		printf("Inside while loop\n");
 		readsz = read(fd, buff, BUFFER_SIZE - 1);
 		//might want to have some checks for read error like readsize == -1
 		buff[readsz] = '\0';
+		printf("Current rem: %s | Read size: %d | Buff: %s\n", rem, readsz, buff);
 		if (readsz > 0)
 		{
 			npos = findn(buff);
+			printf("npos: %d\n", npos);
 			if (npos >= 0)
 			{
 				linen = ft_substr(buff, 0, npos + 1);
@@ -160,6 +163,34 @@ char	*get_next_line(int fd)
 				}
 				free (buff);
 				return (retstr);
+			}
+			else
+			{
+				//if rem != NULL, add buff to the back of the rem
+				printf("Start buff without nl\n");
+				if (rem)
+				{
+					printf("Inside smth rem: %s\n", rem);
+					tmprem = ft_strjoin(rem, buff);
+					printf("tmprem: %s\n", tmprem);
+					if (tmprem == NULL)
+					{
+						free (rem);
+						free (buff);
+						return (NULL);
+					}
+					free (rem);
+					rem = tmprem;
+					printf("new rem: %s\n", rem);
+
+				}
+				//else make the buff the remain
+				else
+				{
+					printf("Inside NULL rem\n");
+					rem = ft_strdup(buff);
+					printf("Null to new rem: %s\n", rem);
+				}
 			}
 		}
 		else

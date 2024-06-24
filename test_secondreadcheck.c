@@ -24,7 +24,9 @@ int	main(void)
 	size_t	buffsz;
 	char	*buff;
 	char	*chkstr;
+	int		linecount;
 
+	linecount = 0;
 	fd = open("testtext", O_RDONLY);
 	printf("fd value: %d\n", fd);
 	if (fd == -1)
@@ -34,11 +36,16 @@ int	main(void)
 	}
 
 // Get_next_line here
-	while ()
-
+while (chkstr != NULL)
+{
+	chkstr = get_next_line(fd);
+	printf("Line no.: %d | Contents: %s\n", linecount, chkstr);
+	linecount++;
+}
+/*
 	chkstr = get_next_line(fd);
 	printf("First call of gnl: %s\n", chkstr);
-
+*/
 	closechk = close(fd);
 	printf("close value: %d\n", closechk);
 	if (closechk == -1)
@@ -48,3 +55,4 @@ int	main(void)
 	}
 	return (0);
 }
+
