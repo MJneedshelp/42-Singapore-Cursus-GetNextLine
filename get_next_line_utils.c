@@ -103,6 +103,19 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (ptr);
 }
 
+/* Description: Function that takes in up to 3 pointers pointing to allocated
+   memory and frees the memory if the pointer is not NULL.
+*/
+void	freeptr(void *ptr1, void *ptr2, void *ptr3)
+{
+	if (ptr1 != NULL)
+		free (ptr1);
+	if (ptr2 != NULL)
+		free (ptr2);
+	if (ptr3 != NULL)
+		free (ptr3);
+}
+
 //to remove the 2 fx below afterwards. They are included for testing only
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
