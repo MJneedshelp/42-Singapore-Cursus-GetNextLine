@@ -103,47 +103,26 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (ptr);
 }
 
-/* Description: Function that takes in up to 3 pointers pointing to allocated
-   memory and frees the memory if the pointer is not NULL.
-*/
-void	freeptr(void *ptr1, void *ptr2, void *ptr3)
-{
-	if (ptr1 != NULL)
-		free (ptr1);
-	if (ptr2 != NULL)
-		free (ptr2);
-	if (ptr3 != NULL)
-		free (ptr3);
-}
-
-//to remove the 2 fx below afterwards. They are included for testing only
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-
-	i = 0;
-	if (size > 0)
-	{
-		while (src[i] != '\0' && i < size - 1)
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	return (ft_strlen(src));
-}
+/* Description: returns a pointer to a new string which is a duplicate of the
+   string s. Memory for the new string is obtained with malloc and can be freed
+   with free. */
 
 char	*ft_strdup(const char *s)
 {
 	size_t	len;
 	char	*ptr;
+	size_t	i;
 
+	i = 0;
 	len = ft_strlen(s);
 	ptr = (char *)malloc((len + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (ptr);
-	ft_strlcpy(ptr, s, len + 1);
+	while (s[i] != '\0')
+	{
+		ptr[i] = s[i];
+		i++;
+	}
+	ptr[i] = '\0';
 	return (ptr);
 }

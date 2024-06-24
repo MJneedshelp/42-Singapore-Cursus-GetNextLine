@@ -31,21 +31,17 @@ int	main(void)
 		return (-1);
 	}
 
-/*	
+
 	readsz = 10;
 	buffsz = 10;
 	buff = (char *)malloc(buffsz * sizeof(char));
-	while (readsz != 0)
+	while (readsz > 0)
 	{
 		readsz = read(fd, buff, buffsz - 1);
 		buff[readsz] = '\0';
 		printf("Read size: %d\n", readsz);
 		printf("Read content: %s\n", buff);
 	}
-*/
-
-// Get_next_line here
-
 	closechk = close(fd);
 	printf("close value: %d\n", closechk);
 	if (closechk == -1)

@@ -33,6 +33,19 @@ size_t	findn(char *str)
 	return (-1);
 }
 
+/* Description: Function that takes in up to 3 pointers pointing to allocated
+   memory and frees the memory if the pointer is not NULL.
+*/
+void	freeptr(void *ptr1, void *ptr2, void *ptr3)
+{
+	if (ptr1 != NULL)
+		free (ptr1);
+	if (ptr2 != NULL)
+		free (ptr2);
+	if (ptr3 != NULL)
+		free (ptr3);
+}
+
 
 
 /* Description: Checks if a file can be read
@@ -58,6 +71,7 @@ char	*get_next_line(int fd)
 
 /******************************************************************************/
 	//1. function to check if the FD is readable
+/******************************************************************************/
 
 	//Test: multiple /n in rem
 	/*
@@ -117,7 +131,6 @@ char	*get_next_line(int fd)
 	buff = (char *)malloc(BUFFER_SIZE * sizeof(char));
 	while (readsz > 0)
 	{
-		printf("Inside while loop\n");
 		readsz = read(fd, buff, BUFFER_SIZE - 1);
 		//might want to have some checks for read error like readsize == -1
 		buff[readsz] = '\0';
@@ -129,6 +142,7 @@ char	*get_next_line(int fd)
 			if (npos >= 0)
 			{
 				linen = ft_substr(buff, 0, npos + 1);
+				printf("Found newline in buff. Buff: %s\n", linen);
 				if (linen == NULL)
 				{
 					free (buff);
@@ -139,6 +153,7 @@ char	*get_next_line(int fd)
 				if (rem)
 				{
 					retstr = ft_strjoin(rem, linen);
+					printf("Still has rem. Combined retstr: %s\n", retstr);
 					if (retstr == NULL)
 					{
 						free (buff);
@@ -154,6 +169,7 @@ char	*get_next_line(int fd)
 				if ((size_t)(npos + 1) < readsz)
 				{
 					rem = ft_substr(buff, npos + 1, readsz - (npos + 1));
+					printf("New rem: %s\n", rem);
 					if (rem == NULL)
 					{
 						free (buff);
@@ -170,7 +186,7 @@ char	*get_next_line(int fd)
 				printf("Start buff without nl\n");
 				if (rem)
 				{
-					printf("Inside smth rem: %s\n", rem);
+					printf("Inside smth rem: %s | Buff: %s\n", rem, buff);
 					tmprem = ft_strjoin(rem, buff);
 					printf("tmprem: %s\n", tmprem);
 					if (tmprem == NULL)
@@ -189,6 +205,7 @@ char	*get_next_line(int fd)
 				{
 					printf("Inside NULL rem\n");
 					rem = ft_strdup(buff);
+					free (buff);
 					printf("Null to new rem: %s\n", rem);
 				}
 			}

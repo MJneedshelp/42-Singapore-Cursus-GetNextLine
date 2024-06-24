@@ -27,7 +27,7 @@ int	main(void)
 	int		linecount;
 
 	linecount = 0;
-	fd = open("testtext", O_RDONLY);
+	fd = open("testtext2", O_RDONLY);
 	printf("fd value: %d\n", fd);
 	if (fd == -1)
 	{
