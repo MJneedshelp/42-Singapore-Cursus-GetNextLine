@@ -28,24 +28,36 @@ size_t	ft_strlen(const char *str)
 }
 
 /* Description: copies n bytes from memory area src to memory area dest. Memory
-   must not overlap. */
+   areas may overlap. Copying takes place as though the bytes are first copied
+   into a temporary array that does not overlap src or dest. The bytes are
+   then copied from the temporary array to dest. */
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
 	unsigned char	*x;
 	unsigned char	*y;
+	size_t			i;
 
 	x = (unsigned char *)(dest);
 	y = (unsigned char *)(src);
-	if (dest == NULL && src == NULL)
+	i = n;
+	if (x == y || n == 0)
 		return (dest);
-	else
+	if (dest < src)
 	{
 		while (n--)
 		{
 			*x = *y;
 			x++;
 			y++;
+		}
+	}
+	else
+	{
+		while (i != 0)
+		{
+			x[i - 1] = y[i - 1];
+			i--;
 		}
 	}
 	return (dest);
@@ -69,12 +81,12 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	if (len <= ft_strlen(s) - start)
 	{
-		ft_memcpy(ptr, (s + start), len);
+		ft_memmove(ptr, (s + start), len);
 		*(ptr + len) = '\0';
 	}
 	else
 	{
-		ft_memcpy(ptr, (s + start), ft_strlen(s) - start);
+		ft_memmove(ptr, (s + start), ft_strlen(s) - start);
 		*(ptr + ft_strlen(s) - start) = '\0';
 	}
 	return (ptr);
@@ -97,8 +109,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ptr = (char *)malloc((len1 + len2 + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (NULL);
-	ft_memcpy(ptr, s1, len1);
-	ft_memcpy(ptr + len1, s2, len2);
+	ft_memmove(ptr, s1, len1);
+	ft_memmove(ptr + len1, s2, len2);
 	*(ptr + len1 + len2) = '\0';
 	return (ptr);
 }
