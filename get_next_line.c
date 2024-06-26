@@ -33,10 +33,44 @@ size_t	findn(char *str)
 	return (-1);
 }
 
-/* Description: Takes in the remainder and checks remainder for \n. Returns 
-   a string with the \n if found. If the remainder ends with a \n, the 
+/* Description: Frees the remainder and sets it back to NULL. */
+void	freerem(char **rem)
+{
+	free (*rem);
+	*rem = NULL;
+}
+
+/* Description: Takes in the remainder and checks remainder for \n. Returns
+   a string with the \n if found. If the remainder ends with a \n, the
    remainder is freed and NULL. Otherwise, substring after the \n into a new
    remainder and free + NULL the old remainder.   */
+
+char	*remcheck(char **rem, int *stat)
+{
+	char	*retstr;
+	char	*tmprem;
+	int		npos;
+
+	retstr = NULL;
+	npos = findn(*rem);
+	if (npos >= 0)
+	{
+		retstr = ft_substr(*rem, 0, npos + 1);
+		if (retstr == NULL)
+			return (free(rem), (*stat) = -1, NULL);
+		if ((size_t)(npos + 1) == ft_strlen(*rem))
+			freerem(rem);
+		else
+		{
+			tmprem = ft_substr(*rem, npos + 1, ft_strlen(*rem) - (npos + 1));
+			if (tmprem == NULL)
+				return (free(*rem), free(retstr), (*stat) = -1, NULL);
+			freerem(rem);
+			*rem = tmprem;
+		}
+	}
+	return (retstr);
+}
 
 /* Description: Function that takes in up to 3 pointers pointing to allocated
    memory and frees the memory if the pointer is not NULL.
@@ -72,55 +106,17 @@ char	*get_next_line(int fd)
 	char		*buff;
 	char		*linen;
 	int			readsz;
+	int			stat;
 
 /******************************************************************************/
 	//1. function to check if the FD is readable
 /******************************************************************************/
 
-	//Test: multiple /n in rem
-	/*
-	rem = ft_strdup("1234567890\n0987654321\nqwertyu\n");
-	*/
-	//Test: in rem, only 1 /n and it is at the end of the string
-	/*
-	rem = ft_strdup("12345678900987654321qwertyu\n");
-	*/
-	//Test: \n is in the first position
-	/*
-	rem = ft_strdup("\n\n1234wertyu\n");
-	*/
-	//Test: no \n in rem
-	/*
-	rem = ft_strdup("kdhfkjsdhfa");
-	*/
-/******************************************************************************/
-
-//Remainder portion can probably be 1 function
-
 	if (rem)
 	{
-		npos = findn(rem);
-		if (npos >= 0)
-		{
-			retstr = ft_substr(rem, 0, npos + 1);
-			if (retstr == NULL)
-				return (free(rem), NULL);
-			if ((size_t)(npos + 1) == ft_strlen(rem))
-			{	
-				free (rem);
-				rem = NULL;
-			}
-			else
-			{
-				tmprem = ft_substr(rem, npos + 1, ft_strlen(rem) - (npos + 1));
-				if (tmprem == NULL)
-					return (free(rem), free(retstr), NULL);
-				free(rem);
-				rem = NULL;
-				rem = tmprem;
-			}
+		retstr = remcheck(&rem, &stat);
+		if (retstr != NULL || stat == -1)
 			return (retstr);
-		}
 	}
 
 //Probably need to split the next read part out as a function
