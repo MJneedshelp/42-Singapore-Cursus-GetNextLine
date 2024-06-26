@@ -6,7 +6,7 @@
 /*   By: mintan <mintan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 11:08:04 by mintan            #+#    #+#             */
-/*   Updated: 2024/06/25 17:35:22 by mintan           ###   ########.fr       */
+/*   Updated: 2024/06/26 21:01:26 by mintan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,9 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 {
 	unsigned char	*x;
 	unsigned char	*y;
-	size_t			i;
 
 	x = (unsigned char *)(dest);
 	y = (unsigned char *)(src);
-	i = n;
 	if (x == y || n == 0)
 		return (dest);
 	if (dest < src)
@@ -54,10 +52,10 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	}
 	else
 	{
-		while (i != 0)
+		while (n != 0)
 		{
-			x[i - 1] = y[i - 1];
-			i--;
+			x[n - 1] = y[n - 1];
+			n--;
 		}
 	}
 	return (dest);
@@ -70,9 +68,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*ptr;
-	size_t	i;
 
-	i = 0;
 	if (len <= ft_strlen(s) - start)
 		ptr = (char *)malloc((len + 1) * sizeof(char));
 	else

@@ -6,7 +6,7 @@
 /*   By: mintan <mintan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 18:52:28 by mintan            #+#    #+#             */
-/*   Updated: 2024/06/26 19:00:55 by mintan           ###   ########.fr       */
+/*   Updated: 2024/06/26 21:58:41 by mintan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ size_t	findn(char *str)
 	}
 	return (-1);
 }
+
+/* Description: Takes in the remainder and checks remainder for \n. Returns 
+   a string with the \n if found. If the remainder ends with a \n, the 
+   remainder is freed and NULL. Otherwise, substring after the \n into a new
+   remainder and free + NULL the old remainder.   */
 
 /* Description: Function that takes in up to 3 pointers pointing to allocated
    memory and frees the memory if the pointer is not NULL.
@@ -101,19 +106,22 @@ char	*get_next_line(int fd)
 			if (retstr == NULL)
 				return (free(rem), NULL);
 			if ((size_t)(npos + 1) == ft_strlen(rem))
+			{	
 				free (rem);
+				rem = NULL;
+			}
 			else
 			{
 				tmprem = ft_substr(rem, npos + 1, ft_strlen(rem) - (npos + 1));
 				if (tmprem == NULL)
 					return (free(rem), free(retstr), NULL);
 				free(rem);
+				rem = NULL;
 				rem = tmprem;
 			}
 			return (retstr);
 		}
 	}
-	printf("Part 1 ends\n");
 
 //Probably need to split the next read part out as a function
 	//Allocate buffer at the start to store the items to be read
@@ -125,10 +133,9 @@ char	*get_next_line(int fd)
 	//readsz > 0. Check if readsz == -1 (to include this)
 	while (readsz > 0)
 	{
-		printf("Inside while readsz loop\n");
 		readsz = read(fd, buff, BUFFER_SIZE);
 		buff[readsz] = '\0';
-		printf("Current rem: %s | Read size: %d | Buff: %s\n", rem, readsz, buff);
+		//printf("Current rem: %s | Read size: %d | Buff: %s\n", rem, readsz, buff);
 		//If new content is read into the buffer
 		if (readsz > 0)
 		{
@@ -178,7 +185,6 @@ char	*get_next_line(int fd)
 				if (rem)
 				{
 					tmprem = ft_strjoin(rem, buff);
-					printf("tmprem: %s\n", tmprem);
 					if (tmprem == NULL)
 						return (free(rem), free(buff), NULL);
 					free (rem);
@@ -201,7 +207,7 @@ char	*get_next_line(int fd)
 		}
 	}
 	//Readsz == 0, finished reading the file. Return rem if there is anything left in there
-	if (rem)
+	if (rem != NULL)
 		return (rem);
 	return (NULL);
 }
