@@ -6,7 +6,7 @@
 /*   By: mintan <mintan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:33:08 by mintan            #+#    #+#             */
-/*   Updated: 2024/06/25 09:57:26 by mintan           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:25:34 by mintan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ while (chkstr != NULL)
 {
 	chkstr = get_next_line(fd);
 	printf("Line no.: %d | Contents: %s\n", linecount, chkstr);
+	free (chkstr);
 	linecount++;
 }
 /*

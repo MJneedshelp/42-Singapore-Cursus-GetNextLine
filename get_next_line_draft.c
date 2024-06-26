@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mintan <mintan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: mintan <mintan@student.42singapore.sg      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 18:52:28 by mintan            #+#    #+#             */
-/*   Updated: 2024/06/26 19:00:55 by mintan           ###   ########.fr       */
+/*   Updated: 2024/06/25 18:13:29 by mintan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,95 +113,139 @@ char	*get_next_line(int fd)
 			return (retstr);
 		}
 	}
-	printf("Part 1 ends\n");
 
 //Probably need to split the next read part out as a function
-	//Allocate buffer at the start to store the items to be read
-	//Buffer size + 1
 	readsz = BUFFER_SIZE;
+	printf("Buffer size: %d\n", BUFFER_SIZE);
 	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-
-	//keep reading the file while not at the end and while there are no errors
-	//readsz > 0. Check if readsz == -1 (to include this)
 	while (readsz > 0)
 	{
-		printf("Inside while readsz loop\n");
 		readsz = read(fd, buff, BUFFER_SIZE);
+		//might want to have some checks for read error like readsize == -1
 		buff[readsz] = '\0';
 		printf("Current rem: %s | Read size: %d | Buff: %s\n", rem, readsz, buff);
-		//If new content is read into the buffer
 		if (readsz > 0)
 		{
-			//Check if there is a \n in the buffer
 			npos = findn(buff);
+			//printf("npos: %d\n", npos);
 			if (npos >= 0)
 			{
-				//Retrieve the substring up to \n in the buffer -> linen
+			//	printf("before substring. Buff: %s\n", buff);
 				linen = ft_substr((const char *)buff, 0, npos + 1);
+			//	printf("Found newline in buff: %s. linen: %s\n", buff, linen);
 				if (linen == NULL)
 				{
 					if (rem)
 						free(rem);
 					return (free(buff), NULL);
 				}
-				//Check if there's remainder from previous run. Concat rem and linen -> retstr
 				if (rem)
 				{
 					retstr = ft_strjoin(rem, linen);
+			//		printf("Still has rem. Combined retstr: %s\n", retstr);
 					if (retstr == NULL)
 						return (free(buff), free(rem), free(linen), NULL);
-					//Free rem and linen after generating retstr
 					free (rem);
 					rem = NULL;
 					free (linen);
 				}
-				//No remainder from previous run. linen -> retstr
 				else
 					retstr = linen;
-				//if there is extra content behind the \n in buff, set that content as the new remainder
-				//the old remainder should have been destroyed by this time
 				if ((npos + 1) < readsz)
 				{
 					rem = ft_substr(buff, npos + 1, readsz - (npos + 1));
+			//		printf("New rem: %s\n", rem);
 					if (rem == NULL)
 						return (free(buff), free(retstr), NULL);
 				}
 				free (buff);
-				//Return for \n is found in new read buff
 				return (retstr);
 			}
-			//No \n found in the buff
 			else
 			{
-				//if rem != NULL, concat rem and buff -> temporary rem
-				//Free old rem first and assgin tmprem as new rem
+				//if rem != NULL, add buff to the back of the rem
+			//	printf("Start buff without nl\n");
 				if (rem)
 				{
+			//		printf("Inside smth rem: %s | Buff: %s\n", rem, buff);
 					tmprem = ft_strjoin(rem, buff);
 					printf("tmprem: %s\n", tmprem);
 					if (tmprem == NULL)
 						return (free(rem), free(buff), NULL);
 					free (rem);
 					rem = tmprem;
+			//		printf("new rem: %s\n", rem);
+
 				}
-				//No old rem. Duplicate buff as the new rem. buff is kept to read more in the next loop
+				//else make the buff the remain
 				else
 				{
+			//		printf("Inside NULL rem\n");
 					rem = ft_strdup(buff);
+					//free (buff);
+			//		printf("Null to new rem: %s\n", rem);
 				}
 			}
 		}
-		//case of failed read. Free buff, free rem (if there is), return NULL
-		else if (readsz == -1)
+		else
 		{
 			free (buff);
-			if (rem != NULL)
-				free (rem);
+			if (rem)
+				return (rem);
 			return (NULL);
 		}
+
+		//printf("Read no.: %d | Read size: %d | Contents: %s\n", count, readsz, buff);
+
 	}
-	//Readsz == 0, finished reading the file. Return rem if there is anything left in there
-	if (rem)
-		return (rem);
-	return (NULL);
+
+
+
+
+	//Static var to hold rem string
+	//Var to hold the return string
+
+	//1. function to check if the FD is readable
+	//2. Check if there is anything in the rem string
+	//	- smth in rem string:
+	//		- step through rem string to find \n within the rem string -> function to find \n within a string (returns index of first \n)
+	//		- if found \n, count strlen up to \n and malloc return string -> can use substring up to \n into return string
+	//			- if malloc fails (if substring return is NULL):
+	//				- free static variable holding the rem string
+	//				- return NULL
+	//			- substring rem afer \n of rem string if there is more stuff -> need to free the old reminader and return a new rem
+	//			- return return string
+
+	//At this point, 2 possible scenarios:
+	//	a. nth in rem string
+	//	b. smth in rem string but no \n
+
+	//3. Allocate buff memory for reading
+	//4. If malloc fails, return NULL
+	//5. While readsize > 0
+	//	- read
+	//		- if readsize > 0
+	//			- step through buff string to find \n within the buff string -> function to find \n within a string (returns index of first \n)
+	//			- if found \n, count strlen up to \n. If smth in rem string, add to count and malloc return string -> can use strjoin here
+	//				- if malloc fails (if strjoin fails):
+	//					- free buff
+	//					- if smth in rem string, free static variable holding the rem string
+	//					- return NULL
+	//				- else
+	//					- if smth in rem string
+	//						- copy rem string to front of return string -> use strjoin here
+	//						- free rem string
+	//					- copy buff up to \n to the return string -> use strjoin here
+	//					- if there is still smth in buff after \n, malloc rem string -> use substring here
+	//						- if malloc fails:
+	//							- free return string
+	//							- free buff
+	//						- else, copy from buff after \n into rem string -> use substring here
+	//						- free buff
+	//					- return return string
+	//		- else (readsize == 0) -> read until the end of the file alr
+	//			- free buff
+	//			- if smth in rem string,
+	//				- return rem string as return string
+	//			- else return NULL
 }
