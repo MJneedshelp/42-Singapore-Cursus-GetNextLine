@@ -43,6 +43,11 @@ int	main(void)
 	readsz = read(fd, buff, 100);
 	buff[readsz] = '\0';
 	printf("Second read. Readsz: %d | Contents: %s\n", readsz, buff);
+	printf("Read again after everything is read\n");
+	readsz = read(fd, buff, 100);
+	buff[readsz] = '\0';
+	printf("Third read. Readsz: %d | Contents: %s\n", readsz, buff);
+
 
 
 	closechk = close(fd);
