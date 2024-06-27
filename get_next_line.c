@@ -88,11 +88,6 @@ void	freeptr(void *ptr1, void *ptr2, void *ptr3)
 		free (ptr3);
 }
 
-/* Description: Checks if a file can be read
-   //probably smth to check if the FD passed in is a binary file or smth
-*/
-
-
 /* Description:
    - Last call of GNL should return a NULL
 */

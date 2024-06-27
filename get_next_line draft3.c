@@ -60,7 +60,7 @@ char	*remcheck(char **rem, int *stat)
 	{
 		retstr = ft_substr(*rem, 0, npos + 1);
 		if (retstr == NULL)
-			return (free(rem), (*stat) = -1, NULL);
+			return (free(*rem), (*stat) = -1, NULL);
 		if ((size_t)(npos + 1) == ft_strlen(*rem))
 			freerem(rem);
 		else
@@ -74,6 +74,18 @@ char	*remcheck(char **rem, int *stat)
 	}
 	return (retstr);
 }
+
+/*Description: Takes in a pointer to a  string and checks if there is \n in the string. If there is*/
+
+
+
+
+
+
+
+
+
+
 
 /* Description: Function that takes in up to 3 pointers pointing to allocated
    memory and frees the memory if the pointer is not NULL.
@@ -125,18 +137,12 @@ char	*get_next_line(int fd)
 	//Buffer size + 1
 	readsz = BUFFER_SIZE;
 	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-
-	//keep reading the file while not at the end and while there are no errors
-	//readsz > 0. Check if readsz == -1 (to include this)
 	while (readsz > 0)
 	{
 		readsz = read(fd, buff, BUFFER_SIZE);
 		buff[readsz] = '\0';
-		//printf("Current rem: %s | Read size: %d | Buff: %s\n", rem, readsz, buff);
-		//If new content is read into the buffer
 		if (readsz > 0)
 		{
-			//Check if there is a \n in the buffer
 			npos = findn(buff);
 			if (npos >= 0)
 			{
