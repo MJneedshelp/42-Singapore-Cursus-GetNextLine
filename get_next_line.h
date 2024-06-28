@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mintan <mintan@student.42singapore.sg      +#+  +:+       +#+        */
+/*   By: mintan <mintan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:23:17 by mintan            #+#    #+#             */
-/*   Updated: 2024/06/22 17:34:48 by mintan           ###   ########.fr       */
+/*   Updated: 2024/06/29 04:35:52 by mintan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,15 @@
 # endif
 
 char	*get_next_line(int fd);
+void	freemem(char **rem, char *buff);
+char	*remcheck(char **rem, int npos);
+int		findn(char *str);
 
 /* Utility functions */
 size_t	ft_strlen(const char *str);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char **s1, char *s2);
 char	*ft_strdup(const char *s);
 
 

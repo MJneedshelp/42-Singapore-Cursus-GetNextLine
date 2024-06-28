@@ -24,9 +24,7 @@ size_t	ft_strlen(const char *str)
 	if (str != NULL)
 	{
 		while (str[count] != '\0')
-		{
 			count++;
-		}
 	}
 	return (count);
 }
@@ -48,19 +46,12 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	if (dest < src)
 	{
 		while (n--)
-		{
-			*x = *y;
-			x++;
-			y++;
-		}
+			*(x++) = *(y++);
 	}
 	else
 	{
-		while (n != 0)
-		{
-			x[n - 1] = y[n - 1];
-			n--;
-		}
+		while (n--)
+			x[n] = y[n];
 	}
 	return (dest);
 }
@@ -93,25 +84,28 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 }
 
 /* Description: Allocates with malloc(3) and returns a new string, which is
-   the result of the concatenation of 's1' and 's2'.
+   the result of the concatenation of 's1' and 's2'. Frees 's1' and sets it
+   to NULL.
    - s1: prefix
    - s2: suffix
+   Frees 's1' and 's2' of malloc fails
 */
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char **s1, char *s2)
 {
 	char	*ptr;
 	size_t	len1;
 	size_t	len2;
 
-	len1 = ft_strlen(s1);
+	len1 = ft_strlen(*s1);
 	len2 = ft_strlen(s2);
 	ptr = (char *)malloc((len1 + len2 + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (NULL);
-	ft_memmove(ptr, s1, len1);
+	ft_memmove(ptr, *s1, len1);
 	ft_memmove(ptr + len1, s2, len2);
 	*(ptr + len1 + len2) = '\0';
+	freemem(s1, NULL);
 	return (ptr);
 }
 
@@ -130,11 +124,8 @@ char	*ft_strdup(const char *s)
 	ptr = (char *)malloc((len + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (ptr);
-	while (s[i] != '\0')
-	{
-		ptr[i] = s[i];
-		i++;
-	}
-	ptr[i] = '\0';
+	while (s[i++] != '\0')
+		ptr[i - 1] = s[i - 1];
+	ptr[i - 1] = '\0';
 	return (ptr);
 }
