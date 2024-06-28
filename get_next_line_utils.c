@@ -14,15 +14,19 @@
    null character '\0'. */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 size_t	ft_strlen(const char *str)
 {
 	size_t	count;
 
 	count = 0;
-	while (str[count] != '\0')
+	if (str != NULL)
 	{
-		count++;
+		while (str[count] != '\0')
+		{
+			count++;
+		}
 	}
 	return (count);
 }

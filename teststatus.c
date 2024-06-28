@@ -1,8 +1,13 @@
 #include <stdio.h>
 
+void	test2(void)
+{
+	printf("Inside second function\n");
+}
+
 char	*test(int *stat)
 {
-	return ((*stat) = -1, "haha");
+	return ((*stat) = -1, test2(), "haha");
 }
 
 int	main(void)

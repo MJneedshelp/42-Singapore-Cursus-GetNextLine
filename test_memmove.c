@@ -18,5 +18,5 @@ int	main(void)
 	//ft_memmove(str, &(str[5]), 4);
 	//str[4] = '\0';
 	test(str);
-	printf("New str: %s\n", str);
+	printf("New str: %s | Address: %p\n", str, str);
 }
