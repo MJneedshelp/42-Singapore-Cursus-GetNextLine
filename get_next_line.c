@@ -1,17 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_28Jun.c                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mintan <mintan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 23:04:34 by mintan            #+#    #+#             */
-/*   Updated: 2024/06/28 23:04:34 by mintan           ###   ########.fr       */
+/*   Updated: 2024/06/29 14:42:39 by mintan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//remove <stdio.h> later
-#include <stdio.h>
 #include "get_next_line.h"
 
 /* Description: Takes in a string and searches for the first \n. Returns the
@@ -63,7 +61,7 @@ char	*remcheck(char **rem, int npos)
 	retstr = ft_substr(*rem, 0, npos + 1);
 	if (retstr == NULL)
 		return (freemem(rem, NULL), NULL);
-	if ((npos + 1) == ft_strlen(*rem))
+	if ((size_t)(npos + 1) == ft_strlen(*rem))
 		freemem(rem, NULL);
 	else
 	{
@@ -91,19 +89,17 @@ char	*get_next_line(int fd)
 	{
 		readsz = read(fd, buff, BUFFER_SIZE);
 		if (readsz < 0)
-			return (freemem(&rem, NULL), NULL);
+			return (freemem(&rem, buff), NULL);
 		buff[readsz] = '\0';
-		printf("inside while. Rem: %s\n", rem);
 		rem = ft_strjoin(&rem, buff);
 		if (rem == NULL)
 			return (freemem(&rem, buff), NULL);
 		npos = findn(rem);
 	}
 	free (buff);
-	printf("After while. Buff: %s | Rem: %s\n", buff, rem);
 	if (npos >= 0)
 		return (remcheck(&rem, npos));
 	if (readsz == 0 && rem)
-		return (rem);
+		return (ft_strdup(&rem));
 	return (NULL);
 }

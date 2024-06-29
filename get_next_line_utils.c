@@ -6,15 +6,14 @@
 /*   By: mintan <mintan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 11:08:04 by mintan            #+#    #+#             */
-/*   Updated: 2024/06/26 21:01:26 by mintan           ###   ########.fr       */
+/*   Updated: 2024/06/29 14:43:35 by mintan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
+
 /* Description: Calculates the length of a given string.Does not include the
    null character '\0'. */
-
-#include "get_next_line.h"
-#include <stdio.h>
 
 size_t	ft_strlen(const char *str)
 {
@@ -99,7 +98,6 @@ char	*ft_strjoin(char **s1, char *s2)
 
 	len1 = ft_strlen(*s1);
 	len2 = ft_strlen(s2);
-	printf("l1: %d | l2: %d\n", len1, len2);
 	if (len1 == 0 && len2 == 0)
 		return (NULL);
 	ptr = (char *)malloc((len1 + len2 + 1) * sizeof(char));
@@ -116,19 +114,20 @@ char	*ft_strjoin(char **s1, char *s2)
    string s. Memory for the new string is obtained with malloc and can be freed
    with free. */
 
-char	*ft_strdup(const char *s)
+char	*ft_strdup(char **s)
 {
 	size_t	len;
 	char	*ptr;
 	size_t	i;
 
 	i = 0;
-	len = ft_strlen(s);
+	len = ft_strlen(*s);
 	ptr = (char *)malloc((len + 1) * sizeof(char));
 	if (ptr == NULL)
-		return (ptr);
-	while (s[i++] != '\0')
-		ptr[i - 1] = s[i - 1];
+		return (freemem(s, NULL), ptr);
+	while ((*s)[i++] != '\0')
+		ptr[i - 1] = (*s)[i - 1];
 	ptr[i - 1] = '\0';
+	freemem(s, NULL);
 	return (ptr);
 }

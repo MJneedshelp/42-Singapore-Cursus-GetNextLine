@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_test.c                                        :+:      :+:    :+:   */
+/*   main_test_default.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mintan <mintan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:33:08 by mintan            #+#    #+#             */
-/*   Updated: 2024/06/29 09:09:15 by mintan           ###   ########.fr       */
+/*   Updated: 2024/06/29 14:36:35 by mintan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,25 @@ int	main(void)
 {
 	int		fd;
 	int		closechk;
-	int		readsz;
-	size_t	buffsz;
-	char	*buff;
 	char	*chkstr;
 	int		linecount;
 
 	linecount = 0;
 	fd = open("Test Input Files/testtext2", O_RDONLY);
 	printf("fd value: %d\n", fd);
+	chkstr = (char *)malloc(5);
 	if (fd == -1)
 	{
 		printf("Error reading file. Ending the programme now\n");
 		return (-1);
 	}
-
-// Get_next_line here
-while (chkstr != NULL)
-{
-	chkstr = get_next_line(fd);
-	printf("Line no.: %d | Contents: %s\n", linecount, chkstr);
-	free (chkstr);
-	linecount++;
-}
+	while (chkstr != NULL)
+	{
+		chkstr = get_next_line(fd);
+		printf("Line no.: %d | Contents: %s\n", linecount, chkstr);
+		free (chkstr);
+		linecount++;
+	}
 	closechk = close(fd);
 	printf("close value: %d\n", closechk);
 	if (closechk == -1)
@@ -52,4 +48,3 @@ while (chkstr != NULL)
 	}
 	return (0);
 }
-

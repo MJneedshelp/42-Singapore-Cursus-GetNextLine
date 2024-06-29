@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_test_nonl.c                                   :+:      :+:    :+:   */
+/*   main_test_epic.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mintan <mintan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:33:08 by mintan            #+#    #+#             */
-/*   Updated: 2024/06/29 14:38:32 by mintan           ###   ########.fr       */
+/*   Updated: 2024/06/29 14:41:26 by mintan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	main(void)
 	int		linecount;
 
 	linecount = 0;
-	fd = open("Test Input Files/1char.txt", O_RDONLY);
+	fd = open("Test Input Files/The Epic of Gilgamesh", O_RDONLY);
 	printf("fd value: %d\n", fd);
-	chkstr = (char *)malloc(5);
+	chkstr = malloc(10);
 	if (fd == -1)
 	{
 		printf("Error reading file. Ending the programme now\n");
