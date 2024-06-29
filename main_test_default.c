@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_secondreadcheck.c                             :+:      :+:    :+:   */
+/*   main_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mintan <mintan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:33:08 by mintan            #+#    #+#             */
-/*   Updated: 2024/06/25 17:25:34 by mintan           ###   ########.fr       */
+/*   Updated: 2024/06/29 09:09:15 by mintan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(void)
 	int		linecount;
 
 	linecount = 0;
-	fd = open("testtext2", O_RDONLY);
+	fd = open("Test Input Files/testtext2", O_RDONLY);
 	printf("fd value: %d\n", fd);
 	if (fd == -1)
 	{
@@ -43,10 +43,6 @@ while (chkstr != NULL)
 	free (chkstr);
 	linecount++;
 }
-/*
-	chkstr = get_next_line(fd);
-	printf("First call of gnl: %s\n", chkstr);
-*/
 	closechk = close(fd);
 	printf("close value: %d\n", closechk);
 	if (closechk == -1)

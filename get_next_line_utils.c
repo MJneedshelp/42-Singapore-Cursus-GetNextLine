@@ -99,6 +99,9 @@ char	*ft_strjoin(char **s1, char *s2)
 
 	len1 = ft_strlen(*s1);
 	len2 = ft_strlen(s2);
+	printf("l1: %d | l2: %d\n", len1, len2);
+	if (len1 == 0 && len2 == 0)
+		return (NULL);
 	ptr = (char *)malloc((len1 + len2 + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (NULL);

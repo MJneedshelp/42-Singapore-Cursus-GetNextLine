@@ -93,12 +93,14 @@ char	*get_next_line(int fd)
 		if (readsz < 0)
 			return (freemem(&rem, NULL), NULL);
 		buff[readsz] = '\0';
+		printf("inside while. Rem: %s\n", rem);
 		rem = ft_strjoin(&rem, buff);
 		if (rem == NULL)
 			return (freemem(&rem, buff), NULL);
 		npos = findn(rem);
 	}
 	free (buff);
+	printf("After while. Buff: %s | Rem: %s\n", buff, rem);
 	if (npos >= 0)
 		return (remcheck(&rem, npos));
 	if (readsz == 0 && rem)
