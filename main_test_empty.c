@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_test_epic.c                                   :+:      :+:    :+:   */
+/*   main_test_empty.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mintan <mintan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:33:08 by mintan            #+#    #+#             */
-/*   Updated: 2024/07/01 21:05:49 by mintan           ###   ########.fr       */
+/*   Updated: 2024/07/01 21:07:33 by mintan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(void)
 	int		linecount;
 
 	linecount = 0;
-	fd = open("Test Input Files/The Epic of Gilgamesh", O_RDONLY);
+	fd = open("Test Input Files/empty.txt", O_RDONLY);
 	printf("fd value: %d\n", fd);
 	chkstr = malloc(10);
 	if (fd == -1)
