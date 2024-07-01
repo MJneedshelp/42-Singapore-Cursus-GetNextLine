@@ -23,8 +23,8 @@ int	main(void)
 	int	fd3;
 
 	fd1 = open("Test Input Files/bonus1", O_RDONLY);
-	fd2 = open("Test Input Files/bonus1", O_RDONLY);
-	fd3 = open("Test Input Files/bonus1", O_RDONLY);
+	fd2 = open("Test Input Files/bonus2", O_RDONLY);
+	fd3 = open("Test Input Files/bonus3", O_RDONLY);
 
 	printf("===========Round 1==========\n");
 	printf("Opening file 1: %s\n", get_next_line(fd1));
