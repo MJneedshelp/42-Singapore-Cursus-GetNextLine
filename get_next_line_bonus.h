@@ -20,6 +20,10 @@
 #  define BUFFER_SIZE 42
 # endif
 
+# ifndef FD_MAX
+#  define FD_MAX 1024
+# endif
+
 /* get_next_line functions */
 char	*get_next_line(int fd);
 void	freemem(char **rem, char *buff);

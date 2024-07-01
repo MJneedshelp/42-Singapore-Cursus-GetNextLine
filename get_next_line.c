@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_updated.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mintan <mintan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 23:04:34 by mintan            #+#    #+#             */
-/*   Updated: 2024/06/29 14:42:39 by mintan           ###   ########.fr       */
+/*   Updated: 2024/07/01 21:25:27 by mintan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,25 +80,25 @@ char	*get_next_line(int fd)
 	static char	*rem = NULL;
 	char		*buff;
 	int			readsz;
-	int			npos;
 
-	npos = findn(rem);
 	readsz = BUFFER_SIZE;
 	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	while (npos < 0 && readsz > 0)
+	if (buff == NULL)
+		return (freemem(&rem, buff), NULL);
+	while (findn(rem) < 0 && readsz > 0)
 	{
 		readsz = read(fd, buff, BUFFER_SIZE);
 		if (readsz < 0)
 			return (freemem(&rem, buff), NULL);
 		buff[readsz] = '\0';
 		rem = ft_strjoin(&rem, buff);
+		printf("readsz: %d | npos: %d | rem: %s | buff: %s\n", readsz, findn(rem), rem, buff);
 		if (rem == NULL)
 			return (freemem(&rem, buff), NULL);
-		npos = findn(rem);
 	}
 	free (buff);
-	if (npos >= 0)
-		return (remcheck(&rem, npos));
+	if (findn(rem) >= 0)
+		return (remcheck(&rem, findn(rem)));
 	if (readsz == 0 && rem)
 		return (ft_strdup(&rem));
 	return (NULL);

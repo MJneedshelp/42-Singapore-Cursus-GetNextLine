@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 /* Description: Takes in a string and searches for the first \n. Returns the
    index of \n if found. If there is no \n or if the string is NULL, return -1.
@@ -77,15 +77,16 @@ char	*remcheck(char **rem, int npos)
 
 char	*get_next_line(int fd)
 {
-	static char	*rem[1024];
+	static char	*rem[FD_MAX];
 	char		*buff;
 	int			readsz;
 	int			npos;
 
-	npos = findn(rem[fd]);
 	readsz = BUFFER_SIZE;
 	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	while (npos < 0 && readsz > 0)
+	if (buff == NULL || fd < 0 || fd > FD_MAX - 1)
+		return (freemem(&(rem[fd]), buff), NULL);
+	while (findn(rem[fd]) < 0 && readsz > 0)
 	{
 		readsz = read(fd, buff, BUFFER_SIZE);
 		if (readsz < 0)
@@ -94,11 +95,10 @@ char	*get_next_line(int fd)
 		rem[fd] = ft_strjoin(&(rem[fd]), buff);
 		if (rem[fd] == NULL)
 			return (freemem(&(rem[fd]), buff), NULL);
-		npos = findn(rem[fd]);
 	}
 	free (buff);
-	if (npos >= 0)
-		return (remcheck(&(rem[fd]), npos));
+	if (findn(rem[fd]) >= 0)
+		return (remcheck(&(rem[fd]), findn(rem[fd])));
 	if (readsz == 0 && rem[fd])
 		return (ft_strdup(&(rem[fd])));
 	return (NULL);
